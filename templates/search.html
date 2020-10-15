@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block style %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+
+{% endblock style %}
+
+{% block blogsactive %}active{% endblock blogsactive %}
+{% block title %}search result{% endblock title %}
+{% block body %}
+
+{% if count == 0 %}
+
+
+
+<h2 class="text-center py-4 my-4">no search result for {{query}}</h2>
+
+{% endif %}
+{% for blog  in  blogs%}
+
+<h2 class="container my-4">search
+    results:({{count}})
+</h2>
+
+
+<div class="container my-4">
+    <strong>
+        <h3><a href="/diary/{{blog.slug}}" class="text-dark">
+                {{blog.title}}
+            </a></h3>
+    </strong>
+    <p class="text-primary">{{blog.time}}</p>
+
+    <p>{{blog.body|slice:245}}...</p>
+
+    <a href="/diary/{{blog.slug}}" class="text-dark">
+
+
+        <button type="button" class="btn btn-success">view more</button>
+
+    </a>
+
+    <a href="/delete/{{blog.slug}}" class="text-danger">
+
+
+
+
+
+
+        <button class="btn btn-danger" style="font-size:17px">delete <i class="fa fa-trash-o"></i></button>
+
+    </a>
+</div>
+<hr>
+
+{% endfor %}
+
+
+
+
+
+{% endblock body %}
