@@ -28,19 +28,48 @@ def delete(request,slug):
 def homesearch(request):
     query = request.GET['query']
     print(query)
+    """   if len(query) > 50:
+        searchr = Post.objects.none()
+    else:
+                
+        searchtitle = Post.objects.filter(title__icontains=query)
+        searchcontent = Post.objects.filter(body__icontains=query)
+       # searchtime = Post.objects.filter(time=datetime.date(query))
+        searchr = searchtitle.union(searchcontent)
+        print(searchtitle,searchcontent)
+    count = len(searchr)
+    """
+    searchtitle = Post.objects.filter(title__icontains=query)
+    searchcontent = Post.objects.filter(body__icontains=query)
+    searchtime= Post.objects.filter(time__icontains=query)
+    searchr = searchtitle.union(searchcontent)
+    search = searchr.union(searchtime)
+    count = len(search)
+    print(count,searchtime)
+
+    context = {'blogs':search,'query':query,'count':count}
+    
+    return render(request,'search.html', context)
+
+"""#
+def search(request):
+    query = request.GET['query']
     if len(query) > 50:
         searchr = Post.objects.none()
     else:
                 
-        searchtitle = Post.objects.filter(title=query)
-        searchcontent = Post.objects.filter(body__icontains=query)
-        searchtime = Post.objects.filter(time=datetime.date(query))
-        searchr = searchtitle.union(searchtime)
+        searchtitle = Post.objects.filter(title__icontains=query)
+        searchcontent = Post.objects.filter(content__icontains=query)
+        searchr = searchtitle.union(searchcontent)
 
-    count = len(searchr)
+    if searchr.count() == 0:
     
-
-
-    context = {'blogs':searchr,'query':query,'count':count}
     
+        context = {'blogs':searchr}
+
+
+
     return render(request,'search.html', context)
+"""
+def s(request):
+    return render(request,'s.html')
