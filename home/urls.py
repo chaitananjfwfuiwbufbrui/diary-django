@@ -26,4 +26,9 @@ urlpatterns = [
    path('diary/<str:slug>', views.diaryseperate, name='diaryseperate'),
    path('delete/<str:slug>', views.delete, name='delete'),
 
+   
+    path('signup', views.handleauth, name='handleauth'),
+    path('login', views.handlelogin, name='handlelogin'),
+    path('logout', views.handlelogout, name='handlelogout'),
+
 ]

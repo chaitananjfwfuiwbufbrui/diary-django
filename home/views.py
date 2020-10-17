@@ -2,19 +2,35 @@ from django.shortcuts import render,redirect
 from home.models import *
 from django.contrib import  messages
 import  datetime
+from  django.contrib.auth.models import User 
+from django.contrib.auth import authenticate,login,logout
 # Create your views here.
 def home(request):
+    userrs = request.user
+    x = "AnonymousUser"
+    print(userrs)
     if request.method == 'POST':
         title = request.POST['title']
         body = request.POST['body']
+        users = request.POST['user']
         
-        ins = Post(title=title,body=body)
+        ins = Post(title=title,body=body,user=users)
         ins.save()
         messages.success(request,"your detail are taken")
         print("imported contact")
-    dataa = Post.objects.all()
-    sorted_d = dataa.order_by("-time")
-    context = {'dataa' :sorted_d}
+    if userrs == x:
+        dataa = Post.objects.filter(user=userrs)
+        sorted_d = dataa.order_by("-time")
+        context = {'dataa' :sorted_d}
+    else:
+        dataa = Post.objects.filter(user=userrs)
+        sorted_d = dataa.order_by("-time")
+        count= len(sorted_d)
+                
+        print(count)
+        context = {'dataa' :sorted_d,'count':count}
+
+
     return render(request,'home.html',context)
 
 def diaryseperate(request,slug):
@@ -72,3 +88,61 @@ def search_date(request):
     context = {'blogs':searchtime,'query':date,'count':count}
     
     return render(request,'search.html', context)
+
+#api
+def handleauth(request):
+    if request.method == 'POST':
+       user = request.POST['signupuser'] 
+       email = request.POST['signupemail']
+       signupfname = request.POST['signupfname']
+       signupsname = request.POST['signupsname']
+       pass1 = request.POST['inputPassword1']
+       pass2 = request.POST['inputPassword2']
+       if len(user) > 10:
+            messages.error(request,"user name should be less than 10 characters")
+            return redirect('/')
+       if pass1 != pass2:
+            messages.error(request,"passwoard should be match")
+            return redirect('/')
+
+       if not user.isalnum():
+           messages.error(request,"username must be in alphabhates and numaric")
+           return redirect('/')
+         
+        
+
+
+       myuser = User.objects.create_user(user,email,pass1)
+       
+       myuser.first_name= signupfname
+       myuser.last_name = signupsname
+       myuser.save()
+       messages.success(request,"your account has been successfully created")
+       return redirect('home')
+    else:
+        return render(request,'error.html')
+
+def handlelogout(request):
+    logout(request)
+    messages.success(request,'successfully logout')
+    return redirect('home')
+
+
+def handlelogin(request):
+
+
+
+    if request.method == 'POST':
+       loginuser = request.POST['loginuser'] 
+       loginPassword= request.POST['loginPassword']
+       user = authenticate(username=loginuser,password=loginPassword)
+       if user is not None:
+            login(request,user)
+            messages.success(request,"sucessfully login")
+            return redirect('home')
+       else:
+           messages.error(request,'invalid username')
+           return redirect('home')
+    else:
+        return render(request,'error.html')
+    return render(request,'home.html')  

@@ -1,13 +1,14 @@
 from django.db import models
 from django.db.models.signals import pre_save
-from diary.utils import unique_slug_generator
-
+from diary1.utils import unique_slug_generator
+from django.contrib.auth.models import User
 # Create your models here.
 class Post(models.Model):
     title = models.CharField(max_length=30)
     body = models.TextField(blank=True)
     time = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=True,null=True)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL)
     
 
     def __str__(self):
