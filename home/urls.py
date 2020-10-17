@@ -21,6 +21,7 @@ urlpatterns = [
    
    path('', views.home, name='home'),
    path('search', views.homesearch, name='homesearch'),
+   path('search-date', views.search_date, name='search-date'),
    path('s', views.s, name='s'),
    path('diary/<str:slug>', views.diaryseperate, name='diaryseperate'),
    path('delete/<str:slug>', views.delete, name='delete'),

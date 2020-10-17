@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   {% block style %}{% endblock style %}
   <link rel="stylesheet" media="screen" type="text/css" href="{% static 'css/datepicker.css' %}" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
 
   <style>
     a {
@@ -20,6 +22,33 @@
       color: #ffffff;
       text-decoration: none;
       cursor: pointer;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Style the input container */
+    .input-container {
+      display: flex;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    /* Style the form icons */
+    .icon {
+      padding: 10px;
+      background: dodgerblue;
+      color: white;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    /* Style the input fields */
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      outline: none;
     }
   </style>
   <title>{% block title %}{% endblock title %}</title>
@@ -52,11 +81,33 @@
           </li>
 
         </ul>
-        
+        <div class="btn-group mx-3">
+          <button type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            filter
+          </button>
+          <div class="dropdown-menu">
+
+            <form action="/search-date" method="post" class="form-inline">
+              {% csrf_token %} 
+              <div class="input-container">
+                <i class="fa fa-calendar icon"></i>
+                <input class="input-field" type="text" id="datepicker" placeholder="date" name="date">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+
+
+            </form>
+          </div>
+        </div>
+
+
+
 
         <form action="/search" method="get" class="form-inline ">
 
-          <input class="form-control mr-sm-2 " name="query" id="query" type="search" placeholder="Search"
+
+          <input class="form-control mr-sm-2 "  name="query" id="datepicker" type="search" placeholder="Search"
             aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -94,7 +145,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <input type="date" class="form-control" name="title" id="myDate" value="2014-02-09">
+            
             <form action="/" method="POST">
               {% csrf_token %}
               <div class="form-group">
@@ -150,8 +201,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
- 
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        $("#datepicker").datepicker();
+      });
+    </script>
+
   </body>
 
 </html>
