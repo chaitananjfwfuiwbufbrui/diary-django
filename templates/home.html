@@ -46,10 +46,18 @@
     </a>
 </div>
 {% else %}
-<h1>login</h1>
+<div class="container-fluid mt-100 my-4 py-3">
+    <div class="card-body cart">
+        <div class="col-sm-12 empty-cart-cls text-center"> <img src="https://icons-for-free.com/iconfiles/png/512/ipad+iphone+livejournal+news+online+technology+icon-1320192727830820043.png" width="180" height="180" class="img-fluid mb-4 mr-3">
+            <h3><strong>please login</strong></h3>
+            <h4>Add something to make me happy :)</h4> <a href="" data-toggle="modal" data-target="#login" class="btn btn-success cart-btn-transform m-3" data-abc="true">click her to Login</a>
+        </div>
+    </div> 
+</div>
 
 {% endif %}
 <hr>
 {% endfor %}
+
 
 {% endblock body %}

@@ -8,7 +8,7 @@ class Post(models.Model):
     body = models.TextField(blank=True)
     time = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=True,null=True)
-    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     
 
     def __str__(self):

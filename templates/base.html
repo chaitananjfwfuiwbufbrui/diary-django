@@ -62,7 +62,9 @@
 
 
     <nav class="navbar navbar-expand-lg  bg-dark py-3">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#"><img
+          src="https://icons-for-free.com/iconfiles/png/512/ipad+iphone+livejournal+news+online+technology+icon-1320192727830820043.png"
+          width="30" height="30" alt="" srcset=""></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -108,7 +110,7 @@
         </div>
         <form action="/search" method="get" class="form-inline ">
 
-          
+
           <input class="form-control mr-sm-2 " name="query" id="datepicker" type="search" placeholder="Search"
             aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -117,29 +119,34 @@
 
         <div class="btn-group mx-3">
           <div class="btn-group">
-            <button type="button" class="btn btn-info">your login as {{request.user}}</button>
-            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <div class="dropdown-menu">
-            
-              
+            <button type="button" class="btn btn-info">
+
+              <img
+                src="https://lh3.googleusercontent.com/proxy/HRzCfYWDU7FzKLsng61k5AZdHAz3qRZA-PEd5PskEL1lrHp0E08o2sehrifLPJswbq-JdpeGPoJ3Kr3g1Tfo0DtnxRqoMZvVu6kIFbzbWcdSzg24TmEOWhNM7ErcJdbMEEU"
+                width="30" height="30" alt="" srcset="">
+              <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-right">
+
+
+                <a class="dropdown-item" href="">login as {{request.user}}</a>
                 <a class="dropdown-item" href="/logout">logout</a>
-            </div>
+              </div>
           </div>
         </div>
-        
-
-          {% else %}
-          <button type="button" class="btn btn-success my-2 mx-2  my-sm-0" data-toggle="modal" data-target="#login">
-            log in
-
-            <button type="button" class="btn btn-success my-2 mx-2 my-sm-0" data-toggle="modal" data-target="#signup">
-              sign up
 
 
-              {% endif %}
+        {% else %}
+        <button type="button" class="btn btn-success my-2 mx-2  my-sm-0" data-toggle="modal" data-target="#login">
+          log in
+
+          <button type="button" class="btn btn-success my-2 mx-2 my-sm-0" data-toggle="modal" data-target="#signup">
+            sign up
+
+
+            {% endif %}
 
 
 
@@ -168,17 +175,19 @@
             <form action="/login" method="post">
               {% csrf_token %}
               <div class="form-group">
-                <label for="signupemail" class="col-sm-2 col-form-label">Email address</label>
+                <label for="signupemail" >Username</label>
                 <input type="name" class="form-control" name="loginuser" id="loginuser"
                   placeholder="enter your user id">
               </div>
               <div class="form-group">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" name="loginPassword" id="loginPassword">
-                </div>
+                <label for="inputPassword" >Password</label>
+
+                <input type="password"placeholder="enter your password" class="form-control" name="loginPassword" id="loginPassword">
+
               </div>
+            
               <div class="modal-footer">
+               
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">submit</button>
               </div>
@@ -225,17 +234,20 @@
               </div>
 
               <div class="form-group">
-                <label for="inputPassword1" class="col-sm-2 col-form-label">Password</label>
-                <div class="col-sm-10">
+                <label for="inputPassword1">Password</label>
+                
                   <input type="password" class="form-control" id="inputPassword1" name="inputPassword1">
-                </div>
+                
               </div>
               <div class="form-group">
-                <label for="inputPassword2" class="col-sm-2 col-form-label">reenter Password</label>
-                <div class="col-sm-10">
+                <label for="inputPassword2">reenter Password</label>
+                
                   <input type="password" class="form-control" id="inputPassword2" name="inputPassword2">
-                </div>
+                
               </div>
+
+
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">submit</button>
@@ -259,7 +271,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Enter your story</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -270,13 +282,13 @@
               {% csrf_token %}
               <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" name="title" id="title" placeholder="heading of the topic">
+                <input type="text" required class="form-control" name="title" id="title" placeholder="heading of the topic">
                 <input type="hidden" class="form-control" name="user" id="user" value="{{request.user}}">
               </div>
 
               <div class="form-group">
                 <label for="body">write down your story</label>
-                <textarea class="form-control" id="body" name="body" rows="3"></textarea>
+                <textarea class="form-control" required id="body" name="body" rows="3"></textarea>
               </div>
           </div>
           <div class="modal-footer">

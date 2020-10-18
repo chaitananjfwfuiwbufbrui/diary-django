@@ -7,31 +7,39 @@ from django.contrib.auth import authenticate,login,logout
 # Create your views here.
 def home(request):
     userrs = request.user
-    x = "AnonymousUser"
+    
     print(userrs)
     if request.method == 'POST':
         title = request.POST['title']
         body = request.POST['body']
         users = request.POST['user']
         
-        ins = Post(title=title,body=body,user=users)
+        ins = Post(title=title,body=body,user=request.user)
         ins.save()
-        messages.success(request,"your detail are taken")
+        messages.success(request,"your detail are entry is saved!!")
         print("imported contact")
-    if userrs == x:
-        dataa = Post.objects.filter(user=userrs)
-        sorted_d = dataa.order_by("-time")
-        context = {'dataa' :sorted_d}
-    else:
-        dataa = Post.objects.filter(user=userrs)
-        sorted_d = dataa.order_by("-time")
+    if str(userrs) == "AnonymousUser":
+
+        print("str")
+        sorted_d = {"login"}
         count= len(sorted_d)
                 
         print(count)
         context = {'dataa' :sorted_d,'count':count}
 
 
-    return render(request,'home.html',context)
+        return render(request,'home.html',context)
+    elif str(userrs) != "AnonymousUser":
+        print("namaste")
+        dataa = Post.objects.filter(user=userrs)
+        sorted_d = dataa.order_by("-time")
+        context = {'dataa' :sorted_d}
+        
+        return render(request,'home.html',context)
+
+
+
+
 
 def diaryseperate(request,slug):
     blog = Post.objects.filter(slug=slug).first()
@@ -43,6 +51,8 @@ def delete(request,slug):
 
     return redirect(home)
 def homesearch(request):
+
+
     if request.method == 'POST':
         date = request.GET['date']
         print(date)
@@ -53,13 +63,13 @@ def homesearch(request):
         
      
     
-        searchtitle = Post.objects.filter(title__icontains=query)
-        searchcontent = Post.objects.filter(body__icontains=query)
-        searchtime= Post.objects.filter(time__icontains=query)
+        searchtitle = Post.objects.filter(title__icontains=query,user =request.user)
+        searchcontent = Post.objects.filter(body__icontains=query,user =request.user)
+        searchtime= Post.objects.filter(time__icontains=query,user =request.user)
         searchr = searchtitle.union(searchcontent)
         search = searchr.union(searchtime)
         count = len(search)
-        print(count,searchtime)
+        print(count,search)
 
     context = {'blogs':search,'query':query,'count':count}
     
@@ -82,7 +92,7 @@ def search_date(request):
         reversed_sentence = "-".join(reversed_list)
         print( date, x,lists ,str(reversed_sentence))
 
-    searchtime= Post.objects.filter(time__icontains= reversed_sentence)
+    searchtime= Post.objects.filter(user=request.user, time__icontains= reversed_sentence)
     count = len(searchtime)
     print(searchtime)
     context = {'blogs':searchtime,'query':date,'count':count}
